@@ -1,7 +1,11 @@
-
-
-ClassMaterial/class_code/.ipynb_checkpoints/*
-*/.ipynb_checkpoints/*
-ClassMaterial/homework/.ipynb_checkpoints/
 *.swp
+**/.ipynb_checkpoints/
+Untitled*.ipynb
+__pycache__/
+
+# macOS
+.DS_Store
+._*
+*/.DS_Store
+*/._*
 

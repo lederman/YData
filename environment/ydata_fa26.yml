@@ -1,0 +1,118 @@
+# YData — S&DS 1230 — Fall 2026
+# The course environment. THIS is the file students install.
+#
+# Import it through Anaconda Navigator (Environments -> Import), or from a
+# terminal with:  conda env create -f ydata_fa26.yml
+# Full instructions are in SETUP.md, next to this file.
+#
+# Major versions are pinned so that everyone in the course is on the same
+# python, numpy and pandas, and so that an upstream release partway through the
+# semester cannot change how the exercises behave.
+#
+# Changes from ydata_2025spring_v1.yml (Spring 2025):
+#   - python pinned to 3.12 (was unpinned in v1, 3.12 in v2)
+#   - numpy/pandas majors pinned so everyone is on the same version
+#   - REMOVED `datascience` (pip): verified unused — 0 imports, 0 Table() uses
+#     across all 75 course notebooks. It was vestigial from the pre-2024 course.
+#   - REMOVED tensorflow / torch / torchvision / torchaudio: no course notebook
+#     imports them. This also removes the `--index-url` defect in v2, where that
+#     flag applied globally to the whole pip section and would have redirected
+#     resolution of every other pip package to the PyTorch CPU index.
+#   - ADDED requests: imported by course notebooks AND by the YData package
+#     itself, but was never declared anywhere.
+#   - ADDED folium, contextily, geopy, mapclassify: used by the mapping classes
+#     and previously arriving only as transitive deps of geoplot/datascience.
+#   - ADDED openpyxl: needed to read .xlsx data files.
+#   - YData package pinned to a release tag rather than /tarball/master, so the
+#     package cannot change underneath students mid-semester.
+
+name: ydata_fa26
+channels:
+  - conda-forge
+dependencies:
+  # ---- interpreter -------------------------------------------------------
+  - python=3.12
+
+  # ---- core scientific stack (majors pinned) -----------------------------
+  - numpy>=2,<3
+  - pandas>=3,<4
+  - scipy>=1.14
+  - statsmodels>=0.14
+  - scikit-learn>=1.5
+  - scikit-image>=0.24
+  - sympy
+  - numexpr
+
+  # ---- plotting ----------------------------------------------------------
+  - matplotlib>=3.9
+  - seaborn>=0.13
+  - plotly>=6
+  - bokeh
+
+  # ---- geospatial --------------------------------------------------------
+  - geopandas>=1.0
+  - geoplot
+  - folium
+  - contextily
+  - geopy
+  - mapclassify
+
+  # ---- data access -------------------------------------------------------
+  - requests
+  - beautifulsoup4
+  - soupsieve
+  - pandas-datareader
+  - openpyxl
+  - pycurl
+  - polars
+  - dask
+
+  # ---- imaging -----------------------------------------------------------
+  - pillow
+  - imageio
+
+  # ---- jupyter -----------------------------------------------------------
+  - jupyterlab
+  - jupyterlab_server
+  - notebook
+  - ipykernel
+  - ipython
+  - ipywidgets
+  - jupyter_client
+  - jupyter_core
+  - nb_conda_kernels
+  - nbconvert
+  - nbformat
+  - send2trash
+
+  # ---- authoring / PDF export -------------------------------------------
+  # conda-forge `quarto` ships the full Quarto CLI (osx-arm64/osx-64/win-64/linux-64).
+  # No linux-aarch64 build exists; on ARM Linux use the upstream tarball.
+  #
+  # The LaTeX engine is NOT here, and cannot be:
+  #   * `tinytex` is not packaged for conda at all
+  #   * `texlive-core` exists but has NO win-64 build, so naming it would make
+  #     this environment unsolvable for every Windows student
+  # It is a one-off post-install step instead, only needed for the Quarto PDF
+  # route (the HTML -> Print route needs no LaTeX):
+  #     conda activate ydata_fa26
+  #     quarto install tinytex          # ~70 MB into your home directory
+  - quarto
+
+  - pip
+  - pip:
+      # The YData helper package. Students import this in nearly every notebook,
+      # so it MUST be installed by this file -- most students import the
+      # environment through the Anaconda Navigator GUI and never open a
+      # terminal, so a "run pip yourself afterwards" step would simply not
+      # happen and every notebook would fail on `import YData`.
+      #
+      # Pinned to a release TAG rather than a branch, so the package cannot
+      # change underneath students mid-semester. Spring 2025 used
+      # .../tarball/master, which is a moving target.
+      #
+      # NOTE: this URL only resolves once v0.2.0 is pushed to
+      # github.com/lederman/YData_package. Verify before publishing:
+      #    curl -sIL -o /dev/null -w '%{http_code}\n' \
+      #      https://github.com/lederman/YData_package/tarball/v0.2.0
+      - https://github.com/lederman/YData_package/tarball/v0.2.0
