@@ -26,7 +26,7 @@
 #   - YData package pinned to a release tag rather than /tarball/master, so the
 #     package cannot change underneath students mid-semester.
 
-name: ydata_fa26
+name: ydata26fa
 channels:
   - conda-forge
 dependencies:
